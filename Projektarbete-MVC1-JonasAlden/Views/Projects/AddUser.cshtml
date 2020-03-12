@@ -1,0 +1,32 @@
+﻿@model Projektarbete_MVC1_JonasAlden.ViewModels.Projects.AddUserProjectViewModel
+@{
+    ViewBag.Title = "AddUser";
+}
+<div class="row">
+    <div class="col-md-12">
+        <h2>Add User</h2>
+    </div>
+</div>
+<div class="col-md-12 table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Firstname</th>
+                <th>SurName</th>
+                <th>Domain</th>
+                <th>Admin</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in @Model.Users)
+            {
+                <tr>
+                    <td>@user.Firstname</td>
+                    <td>@user.Surname</td>
+                    <td>@user.Domain</td>
+                    <td> @Html.ActionLink("Add", "AddUsers", "Projects", new { userid = @user.Id, projectid = @Model.ProjectId }, null)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

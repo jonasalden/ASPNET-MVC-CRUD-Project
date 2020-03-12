@@ -1,0 +1,75 @@
+﻿@using Microsoft.AspNet.Identity
+@model Projektarbete_MVC1_JonasAlden.ViewModels.Users.UsersViewModel
+
+@{
+    ViewBag.Title = "Employees";
+}
+@if (Request.IsAuthenticated)
+{
+    <h2>List of employees</h2>
+    if (TempData["Message"] != null)
+    {
+        <div class="row">
+            <div class="alert @TempData["Type"]" role="alert">@TempData["Message"]</div>
+        </div>
+    }
+    if (User.IsInRole("Admin"))
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <div class="pull-right">
+                    <input type="button" value="Add" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("Add", "Users") + "'");" />
+                </div>
+            </div>
+        </div>
+    }
+    <div class="row">
+        <div class="col-md-12 table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Firstname</th>
+                    <th>Surname</th>
+                    <th>Domain</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Experience</th>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <th>Admin</th>
+                    }
+                    else
+                    {
+                        <th>Details</th>
+                    }
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var users in Model.Users)
+                {
+                    <tr id="trHoverable">        
+                            <td>@users.Firstname</td>
+                            <td>@users.Surname</td>
+                            <td>@users.Domain</td>
+                            <td>@users.Email</td>
+                            <td>@users.PhoneNumber</td>
+                            <td>@users.Experience</td>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <td>
+                                @Html.ActionLink("Edit", "Details/" + users.Id, "Users") / @Html.ActionLink("Delete", "Delete/" + users.Id, "Users")
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.ActionLink("Details", "Details/" + users.Id, "Users")
+                            </td>
+                        }
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

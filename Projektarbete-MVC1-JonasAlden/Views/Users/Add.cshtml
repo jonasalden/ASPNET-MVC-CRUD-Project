@@ -1,0 +1,79 @@
+﻿@using Projektarbete_MVC1_JonasAlden.Data
+@model Projektarbete_MVC1_JonasAlden.ViewModels.Users.CreateUserViewModel
+@{
+    ViewBag.Title = "Add";
+}
+<div class="row">
+    <div class="col-md-12">
+        <h2>Add User</h2>
+        @if (TempData["Message"] != null)
+        {
+            <div class="row">
+                <div class="alert @TempData["Type"]" role="alert">@TempData["Message"]</div>
+            </div>
+        }
+        @using (Html.BeginForm("Add", "Users", FormMethod.Post))
+        {
+            <div class="row">
+                <form role="form">
+                    <div class="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
+                        @Html.LabelFor(m => m.UserName, "Username")
+                        @Html.EditorFor(m => m.UserName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Username"} })
+                    </div>
+                    <div class="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
+                        @Html.LabelFor(m => m.Email, "Email")
+                        @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Email"} })
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
+                        @Html.LabelFor(m => m.Firstname, "Firstname")
+                        @Html.EditorFor(m => m.Firstname, new { htmlAttributes = new { @class = "form-control", @placeholder = "Firstname"} })
+
+                    </div>
+                    <div class="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
+                        @Html.LabelFor(m => m.Surname, "Surname")
+                        @Html.EditorFor(m => m.Surname, new { htmlAttributes = new { @class = "form-control", @placeholder = "Surname"} })
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
+                        @Html.LabelFor(m => m.PasswordHash, "Password")
+                        @Html.EditorFor(m => m.PasswordHash, new { htmlAttributes = new { @class = "form-control", @placeholder = "Password", @type = "password"} })
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
+                        @Html.LabelFor(m => m.PhoneNumber, "Phone")
+                        @Html.EditorFor(m => m.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @placeholder = "Phone"} })
+                    </div>
+                    <div class="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
+                        @Html.LabelFor(m => m.Address, "Address")
+                        @Html.EditorFor(m => m.Address, new { htmlAttributes = new { @class = "form-control", @placeholder = "Address"} })
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
+                        @Html.LabelFor(m => m.Domain, "Domain")
+                        @Html.EditorFor(m => m.Domain, new { htmlAttributes = new { @class = "form-control", @placeholder = "Domain"} })
+                    </div>
+                    <div class="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
+                        @Html.LabelFor(m => m.Experience, "Experience")
+                        @Html.EditorFor(m => m.Experience, new { htmlAttributes = new { @class = "form-control", @placeholder = "Experience" } })
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
+                        @Html.LabelFor(m => m.EmployedDate, "Employment date")
+                        @Html.EditorFor(m => m.EmployedDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                    </div>
+                    <div class="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
+                        @Html.LabelFor(m => m.Rolelist, "Choose role")
+                        @Html.DropDownListFor(m => m.SelectedRole,  new SelectList( Model.Rolelist, "Text", "Value"), new {  @class = "form-control" })
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-10 col-sm-4 col-md-4 col-lg-4">
+                        <input type="submit" value="Add User" class="btn btn-default"/>
+                    </div>
+                </form>
+                <div class="clearfix"></div>
+                <br /><br />
+            </div>
+        }
+    </div>
+</div>

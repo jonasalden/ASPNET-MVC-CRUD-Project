@@ -1,0 +1,105 @@
+﻿@using Microsoft.AspNet.Identity
+@model Projektarbete_MVC1_JonasAlden.ViewModels.Projects.ProjectDetailsViewModel
+@{
+    ViewBag.Title = "Details";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-12">
+            <h2>Project Details</h2>
+        </div>
+    </div>
+</div>
+@using (Html.BeginForm("Details", "Projects", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-md-12">
+            @if (TempData["Message"] != null)
+            {
+                <div class="row">
+                    <div class="alert @TempData["Type"]" role="alert">@TempData["Message"]</div>
+                </div>
+            }
+            <form role="form">
+                @Html.HiddenFor(model => @model.Id)
+                @Html.HiddenFor(model => model.ProjectleaderId)
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.Title, "Title")
+                    @Html.EditorFor(model => @model.Title, new { htmlAttributes = new { @class = "form-control", @placeholder = "Title" } })
+                </div>
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.CreatedDate, "Created")
+                    @Html.EditorFor(model => @model.CreatedDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "Created Date" } })
+
+                </div>
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.ReleaseDate, "Release")
+                    @Html.EditorFor(model => @model.ReleaseDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "Release Date" } })
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.Platform, "Platform")
+                    @Html.EditorFor(model => @model.Platform, new { htmlAttributes = new { @class = "form-control", @placeholder = "Platform" } })
+                </div>
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.Projectleader, "Projectleader")
+                    @Html.EditorFor(model => @model.Projectleader, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                    @Html.HiddenFor(model => model.Projectleader)
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.Description, "Description")
+                    @Html.TextAreaFor(model => @model.Description, new { @class = "form-control", @id = "TextAreaSize", rows = "10", @placeholder = "Description" })
+                </div>
+                <div class="clearfix"></div>
+                <br />
+                @if ((User.Identity.GetUserId() == Model.ProjectleaderId) || (User.IsInRole("Admin")))
+                {
+                    <div class="col-md-12">
+                        <input type="submit" value="Save" class="btn btn-default">
+                    </div>
+                }
+            </form>
+            <div class="col-md-12 table-responsive">
+                <h2>Projects</h2>
+                <h4>Employees (@Model.Users.Count())</h4>
+                @if ((User.Identity.GetUserId() == Model.ProjectleaderId) || (User.IsInRole("Admin")))
+                {
+                    @Html.ActionLink("Add", "AddUser", "Projects", new { projectid = @Model.Id }, new { @class = "btn btn-default" })
+
+                }
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Firstname</th>
+                            <th>SurName</th>
+                            <th>Domain</th>
+                            <th>Email</th>
+                            <th>PhoneNumber</th>
+                            @if ((User.Identity.GetUserId() == Model.ProjectleaderId) || (User.IsInRole("Admin")))
+                            {
+                                <th>Admin</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in @Model.Users)
+                        {
+                            <tr>
+                                <td>@user.FirstName</td>
+                                <td>@user.SurName</td>
+                                <td>@user.Domain</td>
+                                <td>@user.Email</td>
+                                <td>@user.PhoneNumber</td>
+                                @if ((User.Identity.GetUserId() == Model.ProjectleaderId) || (User.IsInRole("Admin")))
+                                {
+                                    <td> @Html.ActionLink("Remove", "DeleteUser", "Projects", new { userid = user.Id, projectid = @Model.Id }, null)</td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,79 @@
+﻿@model Projektarbete_MVC1_JonasAlden.ViewModels.Projects.ProjectsViewModel
+@{
+    ViewBag.Title = "Projects";
+}
+
+@if (User.IsInRole("Admin"))
+{
+    <h2>All Projects</h2>
+}
+else
+{
+    <h2>My Projects</h2>
+}
+@if (TempData["Message"] != null)
+{
+    <div class="row">
+        <div class="alert @TempData["Type"]" role="alert">@TempData["Message"]</div>
+    </div>
+}
+@if (User.IsInRole("Admin"))
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-right">
+                <input type="button" value="Add" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("Add", "Projects") + "'");" />
+            </div>
+        </div>
+    </div>
+}
+<div class="col-md-12 table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Project leader</th>
+                <th>Platform</th>
+                <th>Employees</th>
+                <th>Release date</th>
+                @if (User.IsInRole("Admin"))
+                {
+                    <th>Admin</th>
+                }
+                else
+                {
+                    <th>Details</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var project in @Model.Projects)
+            {
+                <tr id="trHoverable">
+                    <td>@project.Title</td>
+                    <td>@project.ProjectLeader</td>
+                    <td>@project.Platform</td>
+                    <td>@project.Employees</td>
+                    <td>@project.ReleaseDate</td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <td>@Html.ActionLink("Edit", "Details/" + project.Id, "Projects") / @Html.ActionLink("Delete", "Delete/" + project.Id, "Projects")</td>
+                    }
+                    else if (User.IsInRole("Projectleader"))
+                    {
+                        <td>
+                            @Html.ActionLink("Edit", "Details/" + project.Id, "Projects")
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.ActionLink("Details", "Details/" + project.Id, "Projects")
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
